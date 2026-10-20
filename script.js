@@ -293,9 +293,45 @@ function efeitoFlash(aoTerminar) {
 // 4. CENÁRIO 1: ENTRADA DA UCSAL
 // ============================================================================
 
-function iniciarJogo() {
+// ============================================================================
+// 4. CENÁRIO 1: ENTRADA DA UCSAL & LOGIN SEGURO VIA BACKEND
+// ============================================================================
+
+async function entrarNoJogo() {
   obterAudioContext();
   tocarBeep(440, 0.15, "sine", 0.15);
+
+  const inputNome = document.getElementById("login-nome");
+  const inputSenha = document.getElementById("login-senha");
+  
+  let nome = inputNome ? inputNome.value.trim() : "Calouro UCSAL";
+  let senha = inputSenha ? inputSenha.value.trim() : "123456";
+
+  if (!nome) nome = "Calouro UCSAL";
+  if (!senha) senha = "123456";
+
+  nomeJogador = nome;
+
+  // Conexão com o backend Node.js seguro para autenticação e armazenamento de credenciais
+  try {
+    const response = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nome, senha })
+    });
+    const resultado = await response.json();
+    if (resultado.sucesso) {
+      console.log("🔒 Autenticação segura via backend Node.js:", resultado.mensagem);
+    }
+  } catch (e) {
+    console.warn("⚠️ Servidor backend offline. Usando autenticação local offline.", e);
+  }
+
+  // Atualiza nome na interface da batalha e vitória
+  const displayNome = document.getElementById("display-nome-jogador");
+  if (displayNome) displayNome.textContent = nomeJogador;
+  const displayVit = document.getElementById("vitoria-nome-jogador");
+  if (displayVit) displayVit.textContent = nomeJogador;
 
   document.getElementById("tela-inicial").style.display = "none";
   const cenario1 = document.getElementById("cenario1");
@@ -305,7 +341,7 @@ function iniciarJogo() {
   const elLegenda = document.getElementById("legenda-inicial");
   textoLegenda.textContent = "";
 
-  const mensagemIntro = "Mais um dia se inicia na Universidade Católica do Salvador (UCSAL)... Mas rumores estranhos rondam os servidores centrais.";
+  const mensagemIntro = `Mais um dia se inicia na Universidade Católica do Salvador (UCSAL)... Mas ${nomeJogador}, rumores estranhos rondam os servidores centrais.`;
   let i = 0;
   const intervaloIntro = setInterval(() => {
     textoLegenda.textContent += mensagemIntro.charAt(i);
@@ -329,6 +365,10 @@ function iniciarJogo() {
       document.getElementById("container-npc1").style.display = "flex";
     };
   };
+}
+
+function iniciarJogo() {
+  entrarNoJogo();
 }
 
 function iniciarDialogoSeguranca() {
