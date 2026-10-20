@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The Web Legends of UCSAL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Controle de Áudio Global -->
+  <button id="botao-audio" class="botao-audio" onclick="alternarAudio()" title="Ativar/Desativar Som" aria-label="Controle de Som">
+    🔊
+  </button>
+
+  <!-- 1. Tela Inicial -->
+  <div id="tela-inicial">
+    <div class="painel-inicial">
+      <span class="badge-ucsal">UCSAL RPG ADVENTURE</span>
+      <h1 class="titulo-jogo">THE WEB LEGENDS<br><span>OF UCSAL</span></h1>
+      <p class="subtitulo-jogo">A invasão do Mago da Web e a batalha pelos servidores</p>
+      
+      <button id="botao-jogar" onclick="iniciarJogo()">
+        <span class="icone-jogar">▶</span> INICIAR JOGO
+      </button>
+
+      <div class="creditos">
+        <p>Desenvolvido por <strong>Maria Luiza</strong>, <strong>Samuel</strong> e <strong>Thais</strong></p>
+        <small>Universidade Católica do Salvador • Versão Web Aprimorada</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Cenário 1: Entrada da UCSAL -->
+  <div id="cenario1" class="cenario" style="display: none;">
+    <div class="overlay-vinheta"></div>
+    <div id="legenda-inicial" class="legenda-narrativa">
+      <p id="texto-legenda"></p>
+      <span class="dica-continuar">[Clique para continuar]</span>
+    </div>
+    <div class="npc-container" id="container-npc1" style="display: none;" onclick="iniciarDialogoSeguranca()">
+      <div class="balao-interacao">Fale comigo! 💬</div>
+      <img src="img/seguranca(npc1).png" id="npc1" alt="Segurança do Campus" />
+    </div>
+  </div>
+
+  <!-- 3. Cenário 2: Sala do Coordenador -->
+  <div id="cenario2" class="cenario" style="display: none;">
+    <div class="overlay-vinheta"></div>
+    <div class="cenario-titulo">GABINETE DA COORDENAÇÃO</div>
+    <div class="npc-container" id="container-npc2">
+      <img id="npc2" src="img/osbaldo(npc2).png" alt="Coordenador Osbaldo" />
+    </div>
+  </div>
+
+  <!-- NOVO! Cenário: Sala de Aula da Janete -->
+  <div id="cenario-janete" class="cenario" style="display: none;">
+    <div class="overlay-vinheta"></div>
+    <div class="cenario-titulo">SALA DE AULA - BLOCO C</div>
+    <div class="npc-container" id="container-janete">
+      <img id="npc-janete" src="img/janeteimagem.png" alt="Professora Janete" />
+    </div>
+    
+    <!-- Painel de Mini-game de Cálculo -->
+    <div id="painel-calculo" class="painel-mini-game" style="display: none;">
+      <div class="calculo-card">
+        <h3>📊 DESAFIO DE CÁLCULO</h3>
+        <p id="pergunta-calculo">Quanto é a derivada de x²?</p>
+        <div class="opcoes-calculo">
+          <button onclick="responderCalculo(0)" id="opt-0">Opção A</button>
+          <button onclick="responderCalculo(1)" id="opt-1">Opção B</button>
+          <button onclick="responderCalculo(2)" id="opt-2">Opção C</button>
+        </div>
+        <div id="feedback-calculo"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Cenário 3: CPD / Sala dos Servidores (Arena de Ronnie) -->
+  <div id="cenario3" class="cenario" style="display: none;">
+    <div class="overlay-vinheta overlay-alarme"></div>
+    <div class="cenario-titulo alarme-texto">⚠️ CPD CENTRAL DA UCSAL - RONNIE BLOQUEIA O ACESSO ⚠️</div>
+    
+    <!-- Sprite de Ronnie -->
+    <div class="boss-container" id="container-boss">
+      <div id="flutuante-dano" class="flutuante-dano"></div>
+      <img id="npc3-fight" src="img/ronnie_fight(npc3).png" alt="Ronnie, o Boss" />
+    </div>
+  </div>
+
+  <!-- Cenário 4: Laboratório do Professor Márcio (Mago da Web do Bem) -->
+  <div id="cenario4" class="cenario" style="display: none;">
+    <div class="overlay-vinheta"></div>
+    <div class="cenario-titulo">LABORATÓRIO DE TECNOLOGIA - BLOCO D</div>
+    <div class="npc-container" id="container-marcio">
+      <img id="npc4-marcio" src="img/marcio(npc4).png" alt="Márcio, o Mago da Web do Bem" />
+    </div>
+  </div>
+
+  <!-- Cenário 5: Núcleo de Fogo - O Mago da Web (Boss Final) -->
+  <div id="cenario5" class="cenario" style="display: none;">
+    <div class="overlay-vinheta overlay-alarme"></div>
+    <div class="cenario-titulo alarme-texto">🔥 NÚCLEO DOS SERVIDORES - O MAGO DA WEB 🔥</div>
+    
+    <div class="boss-container" id="container-mago-boss">
+      <div id="flutuante-dano-mago" class="flutuante-dano"></div>
+      <img id="npc-mago-final" src="img/MAGO DA WEB(npc4).png" alt="O Mago da Web - Boss Final" />
+    </div>
+
+    <!-- Painel de Mini-game de Programação -->
+    <div id="painel-programacao" class="painel-mini-game" style="display: none;">
+      <div class="calculo-card">
+        <h3>💻 DESAFIO DE PROGRAMAÇÃO</h3>
+        <p id="pergunta-prog">Qual comando do Git envia as alterações para o repositório remoto?</p>
+        <div class="opcoes-calculo">
+          <button onclick="responderProgramacao(0)" id="prog-opt-0">Opção A</button>
+          <button onclick="responderProgramacao(1)" id="prog-opt-1">Opção B</button>
+          <button onclick="responderProgramacao(2)" id="prog-opt-2">Opção C</button>
+        </div>
+        <div id="feedback-prog"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Arena de Batalha RPG Global -->
+  <div id="arena-batalha" style="display: none;">
+    <!-- HUD do Boss -->
+    <div class="hud-boss">
+      <div class="info-boss">
+        <div class="nome-boss">🧙‍♂️ Ronnie <span id="boss-status-badge" class="badge-status">Lv. 99 Boss</span></div>
+        <div class="barra-vida-container">
+          <div id="barra-vida-boss" class="barra-vida-progresso"></div>
+          <span id="texto-vida-boss" class="texto-vida">150 / 150 HP</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Log de Batalha / Terminal -->
+    <div class="terminal-batalha">
+      <div class="terminal-cabecalho">
+        <span class="circulo red"></span>
+        <span class="circulo yellow"></span>
+        <span class="circulo green"></span>
+        <span class="terminal-titulo">portal_aluno_security_terminal.sh</span>
+      </div>
+      <div id="log-batalha" class="terminal-log">
+        <p class="linha-log">Inicializando conexão segura com os servidores da UCSAL...</p>
+      </div>
+    </div>
+
+    <!-- HUD do Jogador e Painel de Ações -->
+    <div class="hud-jogador">
+      <div class="status-jogador">
+        <div class="nome-jogador-display">
+          <span class="icone-aluno">🎓</span> <strong id="display-nome-jogador">Aluno</strong>
+        </div>
+        <div class="barras-jogador">
+          <div class="barra-grupo">
+            <span class="label-barra">HP</span>
+            <div class="barra-container barra-hp">
+              <div id="barra-vida-jogador" class="barra-progresso barra-hp-fill"></div>
+              <span id="texto-vida-jogador" class="texto-barra">100/100</span>
+            </div>
+          </div>
+          <div class="barra-grupo">
+            <span class="label-barra">MP</span>
+            <div class="barra-container barra-mp">
+              <div id="barra-mana-jogador" class="barra-progresso barra-mp-fill"></div>
+              <span id="texto-mana-jogador" class="texto-barra">50/50</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="painel-acoes" id="painel-acoes">
+        <div class="grupo-acoes">
+          <button class="btn-acao btn-ataque" onclick="acaoJogador('css')">
+            <span class="acao-titulo">⚡ Injeção de CSS</span>
+            <span class="acao-desc">Dano & bug visual (0 MP)</span>
+          </button>
+          <button class="btn-acao btn-magia" onclick="acaoJogador('ddos')">
+            <span class="acao-titulo">🌊 DDoS Reverso</span>
+            <span class="acao-desc">Alta carga (15 MP)</span>
+          </button>
+        </div>
+        
+        <div class="grupo-acoes">
+          <button class="btn-acao btn-defesa" onclick="acaoJogador('firewall')">
+            <span class="acao-titulo">🛡️ Firewall</span>
+            <span class="acao-desc">Bloqueia + Cura (10 MP)</span>
+          </button>
+          <button class="btn-acao btn-supremo" onclick="acaoJogador('git')">
+            <span class="acao-titulo">💥 Git Push --force</span>
+            <span class="acao-desc">Dano Massivo (25 MP)</span>
+          </button>
+        </div>
+
+        <div class="grupo-acoes">
+          <button class="btn-acao btn-item" id="btn-cafe" onclick="acaoJogador('cafe')">
+            <span class="acao-titulo">☕ Café Turbinado</span>
+            <span class="acao-desc" id="cafe-usos-desc">Restaura HP/MP (2 usos)</span>
+          </button>
+          <button class="btn-acao btn-especial" onclick="acaoJogador('bauru')">
+            <span class="acao-titulo">🥪 Bauru do Bananas</span>
+            <span class="acao-desc" id="bauru-usos-desc">Cura Crítica 50 HP (1 uso)</span>
+          </button>
+        </div>
+
+        <div class="grupo-acoes">
+          <button class="btn-acao btn-suporte" onclick="acaoJogador('osbaldo')">
+            <span class="acao-titulo">👨‍🏫 Suporte: Osbaldo</span>
+            <span class="acao-desc">Bolo de Pote: Buff (20 MP)</span>
+          </button>
+          <button class="btn-acao btn-suporte" onclick="acaoJogador('seguranca')">
+            <span class="acao-titulo">👮 Suporte: Guarda</span>
+            <span class="acao-desc">Rádio Patrulha: Stun (15 MP)</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Caixa de Diálogo Universal Estilo RPG -->
+  <div id="caixa-dialogo" style="display: none;" onclick="tratarCliqueDialogo(event)">
+    <div class="avatar-caixa" id="avatar-container">
+      <img id="avatar-img" src="img/seguranca(npc1).png" alt="Avatar" />
+    </div>
+    
+    <div class="dialogo-conteudo">
+      <div class="cabecalho-dialogo">
+        <span id="nome-personagem">Segurança</span>
+        <span class="dica-tecla">[Espaço / Clique para avançar]</span>
+      </div>
+      <p id="texto-dialogo">...</p>
+      
+      <!-- Formulário de Entrada do Nome -->
+      <div id="container-input-nome" style="display: none;" onclick="event.stopPropagation()">
+        <input type="text" id="nome-jogador" placeholder="Digite seu nome de estudante..." maxlength="20" autofocus />
+        <button id="botao-confirmar" onclick="salvarNome()">Confirmar</button>
+      </div>
+
+      <div id="indicador-continuar" class="indicador-continuar">▼</div>
+    </div>
+  </div>
+
+  <!-- Modal de Vitória sobre Ronnie (Passagem para o Mago da Web) -->
+  <div id="modal-vitoria-ronnie" class="modal-fim" style="display: none;">
+    <div class="card-fim card-vitoria">
+      <div class="icone-trofeu">🎉</div>
+      <h2>RONNIE FOI DERROTADO!</h2>
+      <p>Você superou os códigos legados de Ronnie! Agora vá falar com o Professor Márcio no Laboratório (Cenário 4)...</p>
+      <button class="btn-reiniciar" onclick="iniciarCenarioMarcio()">ENCONTRAR O PROFESSOR MÁRCIO (BLOCO D)</button>
+    </div>
+  </div>
+
+  <!-- 6. Modal de Vitória -->
+  <div id="modal-vitoria" class="modal-fim" style="display: none;">
+    <div class="card-fim card-vitoria">
+      <div class="icone-trofeu">🏆</div>
+      <h2>VOCÊ VENCEU!!</h2>
+      <h3 class="subtitulo-vitoria">O Portal da UCSAL foi Restaurado!</h3>
+      <p>Parabéns! Você derrotou O Mago da Web na batalha suprema, salvou todos os servidores da universidade e garantiu a sua aprovação com louvor!</p>
+      <div class="estatisticas-fim">
+        <div>🎓 Status: <strong>Lenda Suprema da UCSAL</strong></div>
+        <div>🛡️ Servidores: <strong>100% Protegidos</strong></div>
+      </div>
+      <div class="acoes-derrota" style="display: flex; gap: 15px; justify-content: center; margin-top: 20px;">
+        <button class="btn-reiniciar" onclick="reiniciarJogo()">Jogar Novamente</button>
+        <button class="btn-secundario" onclick="sairDoJogo()">Sair do Jogo</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. Modal de Game Over -->
+  <div id="modal-derrota" class="modal-fim" style="display: none;">
+    <div class="card-fim card-derrota">
+      <div class="icone-derrota">⚠️ 500</div>
+      <h2>INTERNAL SERVER ERROR</h2>
+      <h3 class="subtitulo-derrota">O Mago da Web Derrubou o Sistema!</h3>
+      <p>Seus scripts falharam em produção... O portal do aluno caiu e o semestre foi resetado!</p>
+      <div class="acoes-derrota">
+        <button class="btn-reiniciar btn-tentar-novamente" onclick="tentarNovamenteBatalha()">TENTAR BATALHA NOVAMENTE</button>
+        <button class="btn-secundario" onclick="reiniciarJogo()">MENU INICIAL</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Efeito sonoro / transição overlay -->
+  <div id="overlay-flash" class="overlay-flash"></div>
+
+  <script src="./script.js"></script>
+</body>
+</html>
