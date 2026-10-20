@@ -64,7 +64,7 @@ html, body {
 }
 
 /* ==========================================================================
-   1. TELA INICIAL
+   1. TELA INICIAL / LOGIN MMORPG
    ========================================================================== */
 #tela-inicial {
   position: fixed;
@@ -72,7 +72,7 @@ html, body {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(rgba(10, 15, 25, 0.75), rgba(10, 15, 25, 0.85)), url('img/cenario1.png') center/cover no-repeat;
+  background: linear-gradient(rgba(10, 15, 25, 0.4), rgba(10, 15, 25, 0.65)), url('img/cenario1.png') center/cover no-repeat;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -80,96 +80,128 @@ html, body {
   transition: opacity 0.5s ease;
 }
 
-.painel-inicial {
-  background: rgba(20, 30, 45, 0.9);
-  border: 3px solid var(--secondary-color);
-  border-radius: 20px;
-  padding: 40px 50px;
-  text-align: center;
-  max-width: 650px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7), 0 0 30px rgba(171, 207, 229, 0.2);
-  backdrop-filter: blur(10px);
+.painel-login-mmorpg {
+  background: rgba(15, 23, 42, 0.88);
+  border: 2px solid rgba(171, 207, 229, 0.4);
+  border-radius: 12px;
+  padding: 30px 40px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(171, 207, 229, 0.1);
+  backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  color: #edf2f7;
+  font-family: 'JetBrains Mono', monospace;
   animation: fadeInDown 0.8s ease-out;
 }
 
-.badge-ucsal {
-  display: inline-block;
-  background: rgba(171, 207, 229, 0.15);
-  color: var(--secondary-color);
-  border: 1px solid var(--secondary-color);
-  padding: 6px 16px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  margin-bottom: 15px;
-}
-
-.titulo-jogo {
-  font-size: 40px;
-  font-weight: 800;
-  line-height: 1.15;
-  margin: 0 0 15px 0;
-  letter-spacing: 2px;
-  color: #ffffff;
-  text-shadow: 0 0 15px rgba(171, 207, 229, 0.6), 2px 2px 0 #130e3f;
-}
-
-.titulo-jogo span {
-  color: var(--secondary-color);
-}
-
-.subtitulo-jogo {
-  font-size: 16px;
-  color: #cfd9e8;
-  margin: 0 0 35px 0;
-}
-
-#botao-jogar {
-  display: inline-flex;
+.servidor-status-linha {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  gap: 12px;
-  width: 280px;
-  height: 65px;
-  background: linear-gradient(135deg, #2D3E56 0%, #1e2b3c 100%);
-  color: #ffffff;
-  border: 2px solid var(--secondary-color);
-  border-radius: 50px;
-  font-family: var(--font-main);
-  font-size: 20px;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 14px;
+}
+
+.label-servidor {
+  color: #8da4be;
+}
+
+.nome-servidor {
+  color: #abcfd5;
+  font-weight: 600;
+}
+
+.ping-servidor {
+  color: #2ecc71;
   font-weight: 700;
-  letter-spacing: 1.5px;
+}
+
+.form-login-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.input-linha {
+  display: flex;
+  align-items: center;
+  background: rgba(10, 15, 25, 0.75);
+  border: 1px solid rgba(171, 207, 229, 0.3);
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 0 15px;
+}
+
+.input-linha label {
+  width: 70px;
+  color: #8da4be;
+  font-size: 14px;
+  text-align: left;
+}
+
+.input-linha input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #fff;
+  padding: 12px 10px;
+  font-size: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  outline: none;
+}
+
+.opcoes-login-linha {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  font-size: 13px;
+  color: #8da4be;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   cursor: pointer;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  transition: all 0.25s ease;
 }
 
-#botao-jogar:hover {
-  transform: translateY(-3px) scale(1.03);
-  background: linear-gradient(135deg, #435a75 0%, #2D3E56 100%);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6), 0 0 20px rgba(171, 207, 229, 0.4);
+.checkbox-label input[type="checkbox"] {
+  accent-color: #3498db;
+  cursor: pointer;
 }
 
-.icone-jogar {
+.btn-entrar-mmorpg {
+  background: linear-gradient(135deg, #1d6fa5, #004085);
+  color: #ffffff;
+  border: 2px solid #6cb2eb;
+  padding: 14px;
+  border-radius: 30px;
   font-size: 18px;
-  color: var(--accent-gold);
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  cursor: pointer;
+  box-shadow: 0 5px 20px rgba(0, 123, 255, 0.4);
+  transition: all 0.2s ease;
+  letter-spacing: 1px;
+}
+
+.btn-entrar-mmorpg:hover {
+  background: linear-gradient(135deg, #2583c2, #0056b3);
+  box-shadow: 0 8px 25px rgba(0, 123, 255, 0.7);
+  transform: translateY(-2px);
 }
 
 .creditos {
-  margin-top: 35px;
+  margin-top: 5px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding-top: 15px;
-}
-
-.creditos p {
-  margin: 0 0 5px 0;
-  font-size: 13px;
-  color: #a0aec0;
-}
-
-.creditos strong {
-  color: #ffffff;
+  padding-top: 10px;
+  text-align: center;
 }
 
 .creditos small {

@@ -17,19 +17,42 @@
   </button>
 
   <!-- 1. Tela Inicial -->
+  <!-- 1. Tela Inicial / Login MMORPG -->
   <div id="tela-inicial">
-    <div class="painel-inicial">
-      <span class="badge-ucsal">UCSAL RPG ADVENTURE</span>
-      <h1 class="titulo-jogo">THE WEB LEGENDS<br><span>OF UCSAL</span></h1>
-      <p class="subtitulo-jogo">A invasão do Mago da Web e a batalha pelos servidores</p>
-      
-      <button id="botao-jogar" onclick="iniciarJogo()">
-        <span class="icone-jogar">▶</span> INICIAR JOGO
+    <div class="painel-login-mmorpg">
+      <div class="servidor-status-linha">
+        <span class="label-servidor">Servidor</span>
+        <span class="nome-servidor">[UCSAL Campus Central (PvE)]</span>
+        <span class="ping-servidor">12 ms</span>
+      </div>
+
+      <div class="form-login-grupo">
+        
+        <div class="input-linha">
+          <label for="login-nome">Nome</label>
+          <input type="text" id="login-nome" placeholder="Seu nome de estudante..." maxlength="25" value="Calouro UCSAL" />
+        </div>
+        <div class="input-linha">
+          <label for="login-senha">Senha</label>
+          <input type="password" id="login-senha" placeholder="Sua senha ou matrícula..." value="********" />
+        </div>
+      </div>
+
+      <div class="opcoes-login-linha">
+        <label class="checkbox-label">
+          <input type="checkbox" checked /> Lembrar login
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" /> Forçar
+        </label>
+      </div>
+
+      <button class="btn-entrar-mmorpg" onclick="entrarNoJogo()">
+        Entrar
       </button>
 
-      <div class="creditos">
-        <p>Desenvolvido por <strong>Maria Luiza</strong>, <strong>Samuel</strong> e <strong>Thais</strong></p>
-        <small>Universidade Católica do Salvador • Versão Web Aprimorada</small>
+      <div class="creditos" style="margin-top: 5px;">
+        <small>The Web Legends of UCSAL • Por Maria Luiza, Samuel e Thais</small>
       </div>
     </div>
   </div>
